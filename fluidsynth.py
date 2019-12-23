@@ -55,7 +55,7 @@ def cfunc(name, result, *args):
 
 
 # Bump this up when changing the interface for users
-api_version = '1.2.5'
+api_version = '1.2.6'
 
 # Function prototypes for C versions of functions
 
@@ -63,7 +63,12 @@ FLUID_OK = 0
 FLUID_FAILED = -1
 
 # fluid settings
+# todo implement: fluid_settings_get_hints, fluid_settings_is_realtime, fluid_settings_copystr, fluid_settings_dupstr, fluid_settings_getstr_default, fluid_settings_str_equal, fluid_settings_getnum, fluid_settings_getnum_default, fluid_settings_getnum_range, fluid_settings_getint, fluid_settings_getint_default, fluid_settings_getint_range, fluid_settings_foreach_option, fluid_settings_option_count, fluid_settings_option_concat, fluid_settings_foreach
 new_fluid_settings = cfunc('new_fluid_settings', c_void_p)
+
+fluid_settings_get_type = cfunc('fluid_settings_get_type', c_int,
+								('settings', c_void_p, 1),
+								('name', c_char_p, 1))
 
 fluid_settings_setstr = cfunc('fluid_settings_setstr', c_int,
                               ('settings', c_void_p, 1),
@@ -83,16 +88,17 @@ fluid_settings_setint = cfunc('fluid_settings_setint', c_int,
 delete_fluid_settings = cfunc('delete_fluid_settings', None,
                               ('settings', c_void_p, 1))
 
-fluid_synth_get_settings = cfunc('fluid_synth_get_settings', c_void_p)
-
 
 
 # fluid synth
+# todo implement: fluid_synth_sysex, fluid_synth_get_pitch_bend, fluid_synth_pitch_wheel_sens,fluid_synth_channel_pressure, fluid_synth_key_pressure, fluid_synth_program_select_by_sfont_name, fluid_synth_get_program, fluid_synth_unset_program, fluid_synth_all_notes_off, fluid_synth_all_sounds_off, fluid_synth_set_channel_type, fluid_synth_get_channel_preset, fluid_synth_start, fluid_synth_stop, fluid_synth_sfreload, fluid_synth_add_sfont, fluid_synth_remove_sfont, fluid_synth_sfcount, fluid_synth_get_sfont, fluid_synth_get_sfont_by_id, fluid_synth_get_sfont_by_name, fluid_synth_set_bank_offset, fluid_synth_get_bank_offset, fluid_synth_set_reverb_roomsize, fluid_synth_set_reverb_damp, fluid_synth_set_reverb_width, fluid_synth_set_reverb_level, fluid_synth_set_reverb_on, fluid_synth_set_chorus_nr, fluid_synth_set_chorus_level, fluid_synth_set_chorus_speed, fluid_synth_set_chorus_depth, fluid_synth_set_chorus_type, fluid_synth_set_chorus_on, fluid_synth_count_midi_channels, fluid_synth_count_audio_channels, fluid_synth_count_audio_groups, fluid_synth_count_effects_channels, fluid_synth_count_effects_groups, fluid_synth_set_sample_rate, fluid_synth_set_gain, fluid_synth_get_gain , fluid_synth_set_polyphony, fluid_synth_get_polyphony, fluid_synth_get_active_voice_count, fluid_synth_get_internal_bufsize, fluid_synth_set_interp_method, fluid_synth_set_gen, fluid_synth_get_gen, fluid_synth_activate_key_tuning, fluid_synth_activate_octave_tuning, fluid_synth_tune_notes, fluid_synth_activate_tuning, fluid_synth_deactivate_tuning, fluid_synth_tuning_iteration_start, fluid_synth_tuning_iteration_next, fluid_synth_tuning_dump, fluid_synth_get_cpu_load, fluid_synth_error, fluid_synth_add_default_mod, fluid_synth_remove_default_mod, fluid_synth_write_float, fluid_synth_nwrite_float, fluid_synth_process, fluid_synth_add_sfloader, fluid_synth_alloc_voice, fluid_synth_start_voice, fluid_synth_get_voicelist, fluid_synth_set_custom_filter, fluid_synth_get_ladspa_fx, fluid_synth_reset_basic_channel, fluid_synth_get_basic_channel, fluid_synth_set_basic_channel, fluid_synth_set_legato_mode, fluid_synth_get_legato_mode, fluid_synth_set_portamento_mode, fluid_synth_get_portamento_mode, fluid_synth_set_breath_mode, fluid_synth_get_breath_mode
 new_fluid_synth = cfunc('new_fluid_synth', c_void_p,
                         ('settings', c_void_p, 1))
 
 delete_fluid_synth = cfunc('delete_fluid_synth', None,
                            ('synth', c_void_p, 1))
+
+fluid_synth_get_settings = cfunc('fluid_synth_get_settings', c_void_p)
 
 fluid_synth_sfload = cfunc('fluid_synth_sfload', c_int,
                            ('synth', c_void_p, 1),
