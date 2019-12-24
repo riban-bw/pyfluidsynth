@@ -91,7 +91,7 @@ delete_fluid_settings = cfunc('delete_fluid_settings', None,
 
 
 # fluid synth
-# todo implement: fluid_synth_sysex, fluid_synth_get_pitch_bend, fluid_synth_pitch_wheel_sens,fluid_synth_channel_pressure, fluid_synth_key_pressure, fluid_synth_program_select_by_sfont_name, fluid_synth_get_program, fluid_synth_unset_program, fluid_synth_all_notes_off, fluid_synth_all_sounds_off, fluid_synth_set_channel_type, fluid_synth_get_channel_preset, fluid_synth_start, fluid_synth_stop, fluid_synth_sfreload, fluid_synth_add_sfont, fluid_synth_remove_sfont, fluid_synth_sfcount, fluid_synth_get_sfont, fluid_synth_get_sfont_by_id, fluid_synth_get_sfont_by_name, fluid_synth_set_bank_offset, fluid_synth_get_bank_offset, fluid_synth_set_reverb_roomsize, fluid_synth_set_reverb_damp, fluid_synth_set_reverb_width, fluid_synth_set_reverb_level, fluid_synth_set_reverb_on, fluid_synth_set_chorus_nr, fluid_synth_set_chorus_level, fluid_synth_set_chorus_speed, fluid_synth_set_chorus_depth, fluid_synth_set_chorus_type, fluid_synth_set_chorus_on, fluid_synth_count_audio_channels, fluid_synth_count_audio_groups, fluid_synth_count_effects_channels, fluid_synth_count_effects_groups, fluid_synth_set_sample_rate, fluid_synth_set_gain, fluid_synth_get_gain , fluid_synth_set_polyphony, fluid_synth_get_polyphony, fluid_synth_get_active_voice_count, fluid_synth_get_internal_bufsize, fluid_synth_set_interp_method, fluid_synth_set_gen, fluid_synth_get_gen, fluid_synth_activate_key_tuning, fluid_synth_activate_octave_tuning, fluid_synth_tune_notes, fluid_synth_activate_tuning, fluid_synth_deactivate_tuning, fluid_synth_tuning_iteration_start, fluid_synth_tuning_iteration_next, fluid_synth_tuning_dump, fluid_synth_get_cpu_load, fluid_synth_error, fluid_synth_add_default_mod, fluid_synth_remove_default_mod, fluid_synth_write_float, fluid_synth_nwrite_float, fluid_synth_process, fluid_synth_add_sfloader, fluid_synth_alloc_voice, fluid_synth_start_voice, fluid_synth_get_voicelist, fluid_synth_set_custom_filter, fluid_synth_get_ladspa_fx, fluid_synth_reset_basic_channel, fluid_synth_get_basic_channel, fluid_synth_set_basic_channel, fluid_synth_set_legato_mode, fluid_synth_get_legato_mode, fluid_synth_set_portamento_mode, fluid_synth_get_portamento_mode, fluid_synth_set_breath_mode, fluid_synth_get_breath_mode
+# todo implement: fluid_synth_sysex, fluid_synth_get_pitch_bend, fluid_synth_pitch_wheel_sens,fluid_synth_channel_pressure, fluid_synth_key_pressure, fluid_synth_program_select_by_sfont_name, fluid_synth_get_program, fluid_synth_unset_program, fluid_synth_all_notes_off, fluid_synth_all_sounds_off, fluid_synth_set_channel_type, fluid_synth_get_channel_preset, fluid_synth_start, fluid_synth_stop, fluid_synth_sfreload, fluid_synth_add_sfont, fluid_synth_remove_sfont, fluid_synth_sfcount, fluid_synth_get_sfont, fluid_synth_get_sfont_by_id, fluid_synth_get_sfont_by_name, fluid_synth_set_bank_offset, fluid_synth_get_bank_offset, fluid_synth_set_reverb_roomsize, fluid_synth_set_reverb_damp, fluid_synth_set_reverb_width, fluid_synth_set_reverb_level, fluid_synth_set_chorus_nr, fluid_synth_set_chorus_level, fluid_synth_set_chorus_speed, fluid_synth_set_chorus_depth, fluid_synth_set_chorus_type, fluid_synth_count_audio_channels, fluid_synth_count_audio_groups, fluid_synth_count_effects_channels, fluid_synth_count_effects_groups, fluid_synth_set_sample_rate, fluid_synth_set_gain, fluid_synth_get_gain , fluid_synth_set_polyphony, fluid_synth_get_polyphony, fluid_synth_get_active_voice_count, fluid_synth_get_internal_bufsize, fluid_synth_set_interp_method, fluid_synth_set_gen, fluid_synth_get_gen, fluid_synth_activate_key_tuning, fluid_synth_activate_octave_tuning, fluid_synth_tune_notes, fluid_synth_activate_tuning, fluid_synth_deactivate_tuning, fluid_synth_tuning_iteration_start, fluid_synth_tuning_iteration_next, fluid_synth_tuning_dump, fluid_synth_get_cpu_load, fluid_synth_error, fluid_synth_add_default_mod, fluid_synth_remove_default_mod, fluid_synth_write_float, fluid_synth_nwrite_float, fluid_synth_process, fluid_synth_add_sfloader, fluid_synth_alloc_voice, fluid_synth_start_voice, fluid_synth_get_voicelist, fluid_synth_set_custom_filter, fluid_synth_get_ladspa_fx, fluid_synth_reset_basic_channel, fluid_synth_get_basic_channel, fluid_synth_set_basic_channel, fluid_synth_set_legato_mode, fluid_synth_get_legato_mode, fluid_synth_set_portamento_mode, fluid_synth_get_portamento_mode, fluid_synth_set_breath_mode, fluid_synth_get_breath_mode
 
 new_fluid_synth = cfunc('new_fluid_synth', c_void_p,
                         ('settings', c_void_p, 1))
@@ -189,10 +189,9 @@ class fluid_synth_channel_info_t(Structure):
         ('name', c_char*32),
         ('reserved', c_char*32)]
 
-#fluid_synth_get_channel_info = cfunc('fluid_synth_get_channel_info', c_int,
-#                                  ('synth', c_void_p, 1),
-#                                  ('chan', c_int, 1),
-#                                  ('info', POINTER(fluid_synth_channel_info_t), 1))
+fluid_synth_set_reverb_on = cfunc('fluid_synth_set_reverb_on', c_void_p,
+                                  ('synth', c_void_p, 1),
+                                  ('on', c_int, 0))
 
 fluid_synth_set_reverb = cfunc('fluid_synth_set_reverb', c_int,
                                     ('synth', c_void_p, 1),
@@ -223,7 +222,10 @@ fluid_synth_get_reverb_level = cfunc('fluid_synth_get_reverb_level', c_double,
 fluid_synth_get_reverb_width = cfunc('fluid_synth_get_reverb_width', c_double,
                                     ('synth', c_void_p, 1))
 
-                                    
+fluid_synth_set_chorus_on = cfunc('fluid_synth_set_chorus_on', c_void_p,
+                                  ('synth', c_void_p, 1),
+                                  ('on', c_int, 0))
+
 fluid_synth_get_chorus_nr = cfunc('fluid_synth_get_chorus_nr', c_int,
                                     ('synth', c_void_p, 1))
 
@@ -496,11 +498,6 @@ class Synth:
     def program_select(self, chan, sfid, bank, preset):
         """Select a program"""
         return fluid_synth_program_select(self.synth, chan, sfid, bank, preset)
-  #  def channel_info(self, chan):
-  #      """get soundfont, bank, prog, preset name of channel"""
-  #      info=fluid_synth_channel_info_t()
-  #      fluid_synth_get_channel_info(self.synth, chan, byref(info))
-  #      return (info.sfont_id, info.bank, info.program, info.name)
     def get_midi_channel_count(self):
         return (fluid_synth_count_midi_channels(self.synth))
     def router_clear(self):
@@ -543,6 +540,11 @@ class Synth:
     def router_par2(self, min, max, mul, add):
         if self.router is not None:
             fluid_midi_router_rule_set_param2(self.router.cmd_rule, min, max, mul, add)
+    def enable_reverb(self, enable=True):
+        if enable:
+            fluid_synth_set_reverb_on(self.synth, 1)
+        else:
+            fluid_synth_set_reverb_on(self.synth, 0)
     def set_reverb(self, roomsize=-1.0, damping=-1.0, width=-1.0, level=-1.0):
         """                                  
         roomsize Reverb room size value (0.0-1.2)
@@ -560,6 +562,11 @@ class Synth:
         if level>=0:
             set+=0b1000
         return fluid_synth_set_reverb(self.synth, set, roomsize, damping, width, level)
+    def enable_chorus(self, enable=True):
+        if enable:
+            fluid_synth_set_chorus_on(self.synth, 1)
+        else:
+            fluid_synth_set_chorus_on(self.synth, 0)
     def set_chorus(self, nr=-1, level=-1.0, speed=-1.0, depth=-1.0, type=-1):
         """                                  
         nr Chorus voice count (0-99, CPU time consumption proportional to this value)
